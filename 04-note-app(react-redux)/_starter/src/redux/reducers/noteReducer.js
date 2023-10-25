@@ -1,4 +1,9 @@
-import { ADD_NOTE, EDIT_NOTE, DELETE_NOTE } from "../actions/actionType";
+import {
+  ADD_NOTE,
+  EDIT_NOTE,
+  DELETE_NOTE,
+  FETCH_NOTE,
+} from "../actions/actionType";
 /**
  *  note: {id: string, title: string, content: string}
  */
@@ -10,13 +15,19 @@ const initialState = {
 // Reducer == Fn 2 parameters
 export const noteReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_NOTE:
+      const notes = localStorage.getItem("notes")
+        ? JSON.parse(localStorage.getItem("notes"))
+        : [];
+      return { ...state, notes: notes };
     case ADD_NOTE:
-      return { ...state, notes: [...state.notes, action.payload] };
+      const newNotes = [...state.notes, action.payload];
+      localStorage.setItem("notes", JSON.stringify(newNotes));
+      return { ...state, notes: newNotes };
     case DELETE_NOTE:
-      return {
-        ...state,
-        notes: state.notes.filter((n) => n.id !== action.payload),
-      };
+      const filteredNoted = state.notes.filter((n) => n.id !== action.payload);
+      localStorage.setItem("notes", JSON.stringify(filteredNoted));
+      return { ...state, notes: filteredNoted };
     default:
       return state;
   }

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import "./Form.css";
 import { useDispatch } from "react-redux";
 import { addNoteAction } from "../redux/actions/actionCreator";
 import { nanoid } from "nanoid";
+import "./Form.css";
 
-const AddNotes = () => {
+const AddNotes = () => { //dispatch
   const dispatch = useDispatch();
-
   const [note, setNote] = useState({
     title: "",
     content: "",

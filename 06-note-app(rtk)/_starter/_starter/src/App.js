@@ -1,14 +1,18 @@
-import './App.css';
+import "./App.css";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
-import AddNotes from './components/AddNotes';
-import NotesList from './components/NotesList';
+import AddNotes from "./components/AddNotes";
+import NotesList from "./components/NotesList";
 
 function App() {
   return (
-    <div className='App'>
-      <AddNotes />
-      <NotesList />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <AddNotes />
+        <NotesList />
+      </div>
+    </Provider>
   );
 }
 
