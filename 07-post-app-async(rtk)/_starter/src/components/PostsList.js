@@ -2,14 +2,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchPost from "./SearchPost";
 import "./Posts.css";
-import { fetchPostsAction } from "../store/slices";
+import { fetchPostsAction } from "../store/slices/postSlice";
 
 const PostsList = () => {
   const dispatch = useDispatch();
   const { postsData, loading, error } = useSelector((state) => state.posts);
 
   useEffect(() => {
-    dispatch(fetchPostsAction());
+    dispatch(fetchPostsAction())
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+      });
+    // dispatch(fetchPostsById({id:5})) == {id:5} => payload ของ asyncThunk
   }, []);
 
   if (loading) return <h1>Loading ....</h1>;
@@ -19,12 +24,12 @@ const PostsList = () => {
       <SearchPost />
       <div className="posts-list">
         <h1>Total Posts : 0</h1>
-        {postsData.map((post) => {
+        {postsData.map((post) => (
           <div className="post-details" key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.body}</p>
-          </div>;
-        })}
+          </div>
+        ))}
       </div>
     </>
   );
